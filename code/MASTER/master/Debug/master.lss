@@ -1,0 +1,211 @@
+
+master.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000106  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  0000015a  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  0000015a  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  0000018c  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000090  00000000  00000000  000001c8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   000008e5  00000000  00000000  00000258  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 000006f7  00000000  00000000  00000b3d  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   00000444  00000000  00000000  00001234  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  000000cc  00000000  00000000  00001678  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    000003be  00000000  00000000  00001744  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    00000049  00000000  00000000  00001b02  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000060  00000000  00000000  00001b4b  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   8:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  10:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  14:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  18:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  1c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  20:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  24:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  28:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  2c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  30:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  34:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  38:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  3c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  40:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  44:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  48:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  4c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  50:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+  60:	0e 94 36 00 	call	0x6c	; 0x6c <main>
+  64:	0c 94 81 00 	jmp	0x102	; 0x102 <_exit>
+
+00000068 <__bad_interrupt>:
+  68:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000006c <main>:
+
+
+
+int main(void)
+{
+	SPI_Init();
+  6c:	0e 94 66 00 	call	0xcc	; 0xcc <SPI_Init>
+	UART_Init();
+  70:	0e 94 75 00 	call	0xea	; 0xea <UART_Init>
+	SPI_SlaveSelect(0);
+  74:	80 e0       	ldi	r24, 0x00	; 0
+  76:	0e 94 71 00 	call	0xe2	; 0xe2 <SPI_SlaveSelect>
+	
+    /* Replace with your application code */
+    while (1) 
+    {
+
+		switch (UART_Receive())
+  7a:	0e 94 7d 00 	call	0xfa	; 0xfa <UART_Receive>
+  7e:	84 36       	cpi	r24, 0x64	; 100
+  80:	a9 f0       	breq	.+42     	; 0xac <main+0x40>
+  82:	28 f4       	brcc	.+10     	; 0x8e <main+0x22>
+  84:	81 36       	cpi	r24, 0x61	; 97
+  86:	51 f0       	breq	.+20     	; 0x9c <main+0x30>
+  88:	83 36       	cpi	r24, 0x63	; 99
+  8a:	e1 f0       	breq	.+56     	; 0xc4 <main+0x58>
+  8c:	f6 cf       	rjmp	.-20     	; 0x7a <main+0xe>
+  8e:	88 37       	cpi	r24, 0x78	; 120
+  90:	a9 f0       	breq	.+42     	; 0xbc <main+0x50>
+  92:	8a 37       	cpi	r24, 0x7A	; 122
+  94:	79 f0       	breq	.+30     	; 0xb4 <main+0x48>
+  96:	83 37       	cpi	r24, 0x73	; 115
+  98:	81 f7       	brne	.-32     	; 0x7a <main+0xe>
+  9a:	04 c0       	rjmp	.+8      	; 0xa4 <main+0x38>
+		{
+			case 'a':
+			SPI_Transmit('1');
+  9c:	81 e3       	ldi	r24, 0x31	; 49
+  9e:	0e 94 6d 00 	call	0xda	; 0xda <SPI_Transmit>
+			break;
+  a2:	eb cf       	rjmp	.-42     	; 0x7a <main+0xe>
+			
+			case 's':
+			SPI_Transmit('2');
+  a4:	82 e3       	ldi	r24, 0x32	; 50
+  a6:	0e 94 6d 00 	call	0xda	; 0xda <SPI_Transmit>
+			break;
+  aa:	e7 cf       	rjmp	.-50     	; 0x7a <main+0xe>
+			
+			case 'd':
+			SPI_Transmit('3');
+  ac:	83 e3       	ldi	r24, 0x33	; 51
+  ae:	0e 94 6d 00 	call	0xda	; 0xda <SPI_Transmit>
+			break;
+  b2:	e3 cf       	rjmp	.-58     	; 0x7a <main+0xe>
+			
+			case 'z':
+			SPI_Transmit('4');
+  b4:	84 e3       	ldi	r24, 0x34	; 52
+  b6:	0e 94 6d 00 	call	0xda	; 0xda <SPI_Transmit>
+			break;
+  ba:	df cf       	rjmp	.-66     	; 0x7a <main+0xe>
+			
+			case 'x':
+			SPI_Transmit('5');
+  bc:	85 e3       	ldi	r24, 0x35	; 53
+  be:	0e 94 6d 00 	call	0xda	; 0xda <SPI_Transmit>
+			break;
+  c2:	db cf       	rjmp	.-74     	; 0x7a <main+0xe>
+			
+			case 'c':
+			SPI_Transmit('6');
+  c4:	86 e3       	ldi	r24, 0x36	; 54
+  c6:	0e 94 6d 00 	call	0xda	; 0xda <SPI_Transmit>
+			break;
+  ca:	d7 cf       	rjmp	.-82     	; 0x7a <main+0xe>
+
+000000cc <SPI_Init>:
+}
+Uint8t SPI_Receive(void)
+{
+	while (GET_BIT(SPSR, SPIF) != 1);
+	return SPDR;
+}
+  cc:	bd 9a       	sbi	0x17, 5	; 23
+  ce:	be 98       	cbi	0x17, 6	; 23
+  d0:	bf 9a       	sbi	0x17, 7	; 23
+  d2:	bc 9a       	sbi	0x17, 4	; 23
+  d4:	83 e5       	ldi	r24, 0x53	; 83
+  d6:	8d b9       	out	0x0d, r24	; 13
+  d8:	08 95       	ret
+
+000000da <SPI_Transmit>:
+  da:	8f b9       	out	0x0f, r24	; 15
+  dc:	77 9b       	sbis	0x0e, 7	; 14
+  de:	fe cf       	rjmp	.-4      	; 0xdc <SPI_Transmit+0x2>
+  e0:	08 95       	ret
+
+000000e2 <SPI_SlaveSelect>:
+void SPI_SlaveSelect(Uint8t slave)
+{
+	switch (slave)
+  e2:	81 11       	cpse	r24, r1
+  e4:	01 c0       	rjmp	.+2      	; 0xe8 <SPI_SlaveSelect+0x6>
+	{
+		case 0:
+		CLR_BIT(PORTB, SS);
+  e6:	c4 98       	cbi	0x18, 4	; 24
+  e8:	08 95       	ret
+
+000000ea <UART_Init>:
+}
+void UART_Transmit(Uint8t data)
+{
+	UDR = data;
+	while (GET_BIT(UCSRA, TXC) != 1);
+}
+  ea:	88 e1       	ldi	r24, 0x18	; 24
+  ec:	8a b9       	out	0x0a, r24	; 10
+  ee:	86 e8       	ldi	r24, 0x86	; 134
+  f0:	80 bd       	out	0x20, r24	; 32
+  f2:	87 e6       	ldi	r24, 0x67	; 103
+  f4:	89 b9       	out	0x09, r24	; 9
+  f6:	10 bc       	out	0x20, r1	; 32
+  f8:	08 95       	ret
+
+000000fa <UART_Receive>:
+Uint8t UART_Receive(void)
+{
+	while (GET_BIT(UCSRA, RXC) != 1);
+  fa:	5f 9b       	sbis	0x0b, 7	; 11
+  fc:	fe cf       	rjmp	.-4      	; 0xfa <UART_Receive>
+	return UDR;
+  fe:	8c b1       	in	r24, 0x0c	; 12
+}
+ 100:	08 95       	ret
+
+00000102 <_exit>:
+ 102:	f8 94       	cli
+
+00000104 <__stop_program>:
+ 104:	ff cf       	rjmp	.-2      	; 0x104 <__stop_program>
